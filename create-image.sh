@@ -2,4 +2,11 @@
 
 mvn clean package -DskipTests
 
-docker buildx build --platform linux/arm64,linux/amd64 -t srd-server:latest .
+arch=$(uname -m)
+if [[ "$arch" == "x86_64" ]]; then
+  docker buildx build --platform linux/amd64 -t srd-server:latest .
+elif [[ "$arch" == "aarch64" ]]; then
+  docker buildx build --platform linux/arm64 -t srd-server:latest .
+else
+  echo "Invalid platform: $arch"
+fi
