@@ -2,4 +2,4 @@
 
 mvn clean package -DskipTests
 
-docker buildx build -t srd-server:latest .
+docker buildx build --platform linux/arm64,linux/amd64 -t srd-server:latest .
