@@ -2,12 +2,16 @@ pipeline {
     agent any
 
     tools { maven 'MVN' }
+    
+    environment {
+        IMAGE_NAME = "srd-server"
+    }
 
     stages {
         stage('Create settings.xml') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: '9402b541-33c9-453b-a7eb-90d7cb999f5e',
+                    credentialsId: 'OneDev',
                     usernameVariable: 'MVN_USER',
                     passwordVariable: 'MVN_PASS'
                 )]) {
@@ -42,7 +46,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    image = docker.build("uminho/srd-server:latest", ".")
+                    image = docker.build("uminho/${env.IMAGE_NAME}:latest", ".")
                 }
             }
         }
